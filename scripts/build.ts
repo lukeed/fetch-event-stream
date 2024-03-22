@@ -3,7 +3,7 @@ import { build, emptyDir } from 'https://deno.land/x/dnt@0.40.0/mod.ts';
 await emptyDir('./npm');
 
 await build({
-	entryPoints: ['./src/mod.ts'],
+	entryPoints: ['./mod.ts'],
 	outDir: './npm',
 	shims: {
 		// see JS docs for overview and more options
