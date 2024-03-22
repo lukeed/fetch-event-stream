@@ -20,5 +20,6 @@
 		"lineWidth": 100,
 		"singleQuote": true,
 		"useTabs": true
-	}
+	},
+	"exclude": ["npm"]
 }
