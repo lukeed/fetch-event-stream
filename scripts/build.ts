@@ -44,9 +44,9 @@ await build({
 			`Type 'ReadableStream<string>' must have a '[Symbol.asyncIterator]()' method that returns an async iterator`,
 		);
 	},
-	// postBuild() {
-	// 	// steps to run after building and before running the tests
-	// 	Deno.copyFileSync('LICENSE', 'npm/LICENSE');
-	// 	Deno.copyFileSync('README.md', 'npm/README.md');
-	// },
+
+	async postBuild() {
+		await Deno.copyFile('license', 'npm/license');
+		// 	Deno.copyFileSync('README.md', 'npm/README.md');
+	},
 });
