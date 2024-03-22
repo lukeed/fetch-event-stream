@@ -36,8 +36,6 @@ await build({
 		],
 	},
 
-	packageManager: 'pnpm',
-
 	compilerOptions: {
 		target: 'ES2022',
 		lib: ['ES2022', 'WebWorker'],
