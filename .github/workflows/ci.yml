@@ -45,7 +45,5 @@ jobs:
         with:
           deno-version: v1.x
 
-      - name: Module Size
-        run: |
-          sudo apt-get install minify
-          deno task gzip
+      - run: sudo apt-get install minify
+      - run: deno task gzip
