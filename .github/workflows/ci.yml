@@ -27,11 +27,6 @@ jobs:
           deno test --coverage=cov/
           deno coverage cov/
 
-      - name: Module Size
-        run: |
-          apt-get install minify
-          deno task gzip
-
   npm:
     runs-on: ubuntu-22.04
     steps:
@@ -41,3 +36,16 @@ jobs:
           deno-version: v1.x
 
       - run: deno task build
+
+  size:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v3
+      - uses: denoland/setup-deno@v1
+        with:
+          deno-version: v1.x
+
+      - name: Module Size
+        run: |
+          sudo apt-get install minify
+          deno task gzip
