@@ -1,6 +1,7 @@
 {
   "tasks": {
-    "build": "deno run -A scripts/build.ts"
+    "build": "deno run -A scripts/build.ts",
+    "publish": "deno run -A scripts/publish.ts"
   },
   "imports": {
 		"std/": "https://deno.land/std@0.220.1/"
