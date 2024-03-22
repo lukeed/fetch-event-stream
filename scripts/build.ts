@@ -21,7 +21,7 @@ await build({
 		name: 'fetch-eventsource',
 		version: Deno.args[0],
 		repository: 'lukeed/fetch-eventsource',
-		description: 'EventSource parsing via `fetch` and Web Streams API',
+		description: 'Server Sent Event (SSE) streaming via `fetch` and Web Streams API',
 		license: 'MIT',
 		author: {
 			name: 'Luke Edwards',
@@ -47,6 +47,6 @@ await build({
 
 	async postBuild() {
 		await Deno.copyFile('license', 'npm/license');
-		// 	Deno.copyFileSync('README.md', 'npm/README.md');
+		await Deno.copyFile('readme.md', 'npm/readme.md');
 	},
 });
