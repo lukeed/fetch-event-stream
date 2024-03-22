@@ -18,9 +18,9 @@ await build({
 	importMap: 'deno.json',
 
 	package: {
-		name: 'fetch-eventsource',
+		name: 'fetch-event-stream',
 		version: Deno.args[0],
-		repository: 'lukeed/fetch-eventsource',
+		repository: 'lukeed/fetch-event-stream',
 		description: 'Server Sent Event (SSE) streaming via `fetch` and Web Streams API',
 		license: 'MIT',
 		author: {
@@ -28,6 +28,12 @@ await build({
 			email: 'luke@lukeed.com',
 			url: 'https://lukeed.com',
 		},
+		keywords: [
+			'SSE',
+			'Server-Sent Events',
+			'Events',
+			'EventSource',
+		],
 	},
 
 	packageManager: 'pnpm',
