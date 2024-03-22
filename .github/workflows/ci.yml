@@ -5,7 +5,7 @@ on:
   workflow_call:
 
 jobs:
-  test:
+  deno:
     runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v3
@@ -26,3 +26,13 @@ jobs:
         run: |
           deno test --coverage=cov/
           deno coverage cov/
+
+  npm:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v3
+      - uses: denoland/setup-deno@v1
+        with:
+          deno-version: v1.x
+
+      - run: deno task build
