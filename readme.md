@@ -2,30 +2,28 @@
 
 > Server Sent Event (SSE) streaming via `fetch` and Web Streams API
 
-
 ## Install
 
 ```
 $ npm install --save fetch-event-stream
 ```
 
-
 ## Usage
 
 ```js
-import { stream, events } from 'fetch-event-stream';
+import { events, stream } from 'fetch-event-stream';
 // TODO
 ```
-
 
 ## API
 
 ### events()
+
 Returns: `String`
 
 #### todo
-Type: `todo`
 
+Type: `todo`
 
 ## License
 
