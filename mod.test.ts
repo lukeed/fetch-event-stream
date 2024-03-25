@@ -101,3 +101,101 @@ Deno.test('events should yield correct ServerSentEventMessage', async () => {
 
 	assertEquals(result, [{ data: 'foobar' }]);
 });
+
+Deno.test('events should yield ServerSentEventMessages w/ all fields', async () => {
+	const res = new Response(
+		toInput([
+			{
+				id: 'm1',
+				event: 'message',
+				data: 'hello',
+			},
+			{
+				id: 'm2',
+				event: 'message',
+				data: 'world',
+			},
+		]),
+	);
+
+	const result = [];
+	for await (const event of events(res)) {
+		result.push(event);
+	}
+
+	assertEquals(result.length, 2);
+	assertEquals(result, [
+		{
+			id: 'm1',
+			event: 'message',
+			data: 'hello',
+		},
+		{
+			id: 'm2',
+			event: 'message',
+			data: 'world',
+		},
+	]);
+});
+
+Deno.test('junk events should not be yielded', async () => {
+	const res = new Response(
+		toInput([
+			// @ts-expect-error; known invalid
+			{ foo: 'm1', bar: 123 },
+			// @ts-expect-error; known invalid
+			{ a: 1, b: 2 },
+			{ data: 'ok' },
+		]),
+	);
+
+	const result = [];
+	for await (const event of events(res)) {
+		result.push(event);
+	}
+
+	assertEquals(result.length, 1);
+	assertEquals(result, [{ data: 'ok' }]);
+});
+
+Deno.test('invalid event fields should be ignored', async () => {
+	const res = new Response(
+		toInput([{
+			id: 123,
+			event: 'ok',
+			data: 'hello world',
+			// @ts-expect-error; known invalid
+			foobar: 456,
+		}]),
+	);
+
+	const result = [];
+	for await (const event of events(res)) {
+		result.push(event);
+	}
+
+	assertEquals(result.length, 1);
+	assertEquals(result, [{
+		id: '123',
+		event: 'ok',
+		data: 'hello world',
+	}]);
+});
+
+Deno.test('event data should allow special unicode', async () => {
+	const res = new Response(
+		toInput([{
+			data: '😅',
+		}]),
+	);
+
+	const result = [];
+	for await (const event of events(res)) {
+		result.push(event);
+	}
+
+	assertEquals(result.length, 1);
+	assertEquals(result, [{
+		data: '😅',
+	}]);
+});
