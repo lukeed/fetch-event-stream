@@ -200,20 +200,20 @@ Deno.test('event data should allow special unicode', async () => {
 	}]);
 });
 
-// Deno.test('event data should allow new lines', async () => {
-// 	const res = new Response(
-// 		toInput([{
-// 			data: 'hello\nworld',
-// 		}]),
-// 	);
+Deno.test('event data should allow new lines', async () => {
+	const res = new Response(
+		toInput([{
+			data: 'hello\nworld',
+		}]),
+	);
 
-// 	const result = [];
-// 	for await (const event of events(res)) {
-// 		result.push(event);
-// 	}
+	const result = [];
+	for await (const event of events(res)) {
+		result.push(event);
+	}
 
-// 	assertEquals(result.length, 1);
-// 	assertEquals(result, [{
-// 		data: 'hello\nworld',
-// 	}]);
-// });
+	assertEquals(result.length, 1);
+	assertEquals(result, [{
+		data: 'hello\nworld',
+	}]);
+});
