@@ -23,7 +23,7 @@ await run('publish npm package', {
 });
 
 await run('git tag', {
-	cmd: ['git', 'tag', 'v' + version],
+	cmd: ['git', 'tag', version],
 });
 
 await run('git push', {
