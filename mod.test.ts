@@ -29,12 +29,18 @@ function toInput(items: ServerSentEventMessage[], delay?: number) {
 	return src.pipeThrough(new ServerSentEventStream());
 }
 
+async function collect<T>(input: AsyncGenerator<T, unknown, unknown>): Promise<T[]> {
+	let output: T[] = [];
+	for await (let item of input) {
+		output.push(item);
+	}
+	return output;
+}
+
 Deno.test('events should yield no events for empty response body', async () => {
 	const res = new Response(null);
-	const result = [];
-	for await (const event of events(res)) {
-		result.push(event);
-	}
+	const iter = events(res);
+	const result = await collect(iter);
 	assertEquals(result, []);
 });
 
@@ -52,10 +58,7 @@ Deno.test('events should break on signal abort', async () => {
 		stop.abort();
 	});
 
-	const result = [];
-	for await (const event of sse) {
-		result.push(event);
-	}
+	const result = await collect(sse);
 
 	await task;
 
@@ -94,10 +97,8 @@ Deno.test('events should yield ServerSentEventMessage objects', async () => {
 		]),
 	);
 
-	const result = [];
-	for await (const event of events(res)) {
-		result.push(event);
-	}
+	const iter = events(res);
+	const result = await collect(iter);
 
 	assertEquals(result, [{ data: 'foobar' }]);
 });
@@ -118,10 +119,8 @@ Deno.test('events should yield ServerSentEventMessages w/ all fields', async () 
 		]),
 	);
 
-	const result = [];
-	for await (const event of events(res)) {
-		result.push(event);
-	}
+	const iter = events(res);
+	const result = await collect(iter);
 
 	assertEquals(result.length, 2);
 	assertEquals(result, [
@@ -149,10 +148,8 @@ Deno.test('junk events should not be yielded', async () => {
 		]),
 	);
 
-	const result = [];
-	for await (const event of events(res)) {
-		result.push(event);
-	}
+	const iter = events(res);
+	const result = await collect(iter);
 
 	assertEquals(result.length, 1);
 	assertEquals(result, [{ data: 'ok' }]);
@@ -168,10 +165,8 @@ Deno.test('invalid event fields should be ignored', async () => {
 		}]),
 	);
 
-	const result = [];
-	for await (const event of events(res)) {
-		result.push(event);
-	}
+	const iter = events(res);
+	const result = await collect(iter);
 
 	assertEquals(result.length, 1);
 	assertEquals(result, [{
@@ -187,10 +182,8 @@ Deno.test('event.data should allow special unicode', async () => {
 		}]),
 	);
 
-	const result = [];
-	for await (const event of events(res)) {
-		result.push(event);
-	}
+	const iter = events(res);
+	const result = await collect(iter);
 
 	assertEquals(result.length, 1);
 	assertEquals(result, [{
@@ -205,10 +198,8 @@ Deno.test('event.data should allow newlines', async () => {
 		}]),
 	);
 
-	const result = [];
-	for await (const event of events(res)) {
-		result.push(event);
-	}
+	const iter = events(res);
+	const result = await collect(iter);
 
 	assertEquals(result.length, 1);
 	assertEquals(result, [{
@@ -224,10 +215,8 @@ Deno.test('event.retry should be number, if present', async () => {
 		}]),
 	);
 
-	const result = [];
-	for await (const event of events(res)) {
-		result.push(event);
-	}
+	const iter = events(res);
+	const result = await collect(iter);
 
 	assertEquals(result.length, 1);
 	assertEquals(result, [{
@@ -240,15 +229,13 @@ Deno.test('event.retry should be undefined when invalid', async () => {
 	const res = new Response(
 		toInput([{
 			data: 'hello',
-			// @ts-expect-error
+			// @ts-expect-error; wrong type
 			retry: 'foobar',
 		}]),
 	);
 
-	const result = [];
-	for await (const event of events(res)) {
-		result.push(event);
-	}
+	const iter = events(res);
+	const result = await collect(iter);
 
 	assertEquals(result.length, 1);
 	assertEquals(result, [{
@@ -264,10 +251,8 @@ Deno.test('event.id should allow `number` type', async () => {
 		]),
 	);
 
-	const result = [];
-	for await (const event of events(res)) {
-		result.push(event);
-	}
+	const iter = events(res);
+	const result = await collect(iter);
 
 	assertEquals(result.length, 1);
 	assertEquals(result, [
@@ -282,10 +267,8 @@ Deno.test('event.id should allow `string` type', async () => {
 		]),
 	);
 
-	const result = [];
-	for await (const event of events(res)) {
-		result.push(event);
-	}
+	const iter = events(res);
+	const result = await collect(iter);
 
 	assertEquals(result.length, 1);
 	assertEquals(result, [
