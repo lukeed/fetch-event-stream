@@ -58,8 +58,7 @@ export async function* events(
 
 		if (line.startsWith(':')) continue;
 
-		let [field, value] = utils.partition(line, ':');
-		if (value.startsWith(' ')) value = value.substring(1);
+		let [field, value] = utils.split(line);
 
 		if (field === 'data') {
 			event ||= {};

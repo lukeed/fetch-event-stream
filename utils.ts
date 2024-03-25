@@ -6,17 +6,18 @@ export function stream(input: ReadableStream<Uint8Array>) {
 	return input.pipeThrough(decoder).pipeThrough(split);
 }
 
-export function partition(input: string, delimiter: string) {
-	let idx = input.indexOf(delimiter);
-
-	if (idx === -1) {
-		return [input, ''];
+export function split(input: string) {
+	let rgx = /[:]\s*/;
+	let match = rgx.exec(input);
+	let idx = match && match.index;
+	if (idx) {
+		return [
+			input.substring(0, idx),
+			input.substring(idx + match![0].length),
+		];
 	}
 
-	return [
-		input.substring(0, idx),
-		input.substring(idx + delimiter.length),
-	];
+	return [input, ''];
 }
 
 export function fallback(headers: Headers, key: string, value: string) {

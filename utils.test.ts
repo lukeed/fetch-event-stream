@@ -1,5 +1,5 @@
 import { assertEquals } from 'std/assert/mod.ts';
-import { fallback, partition, stream } from './utils.ts';
+import { fallback, split, stream } from './utils.ts';
 
 Deno.test('stream should correctly pipe input through TextDecoderStream and TextLineStream', async () => {
 	const input = new ReadableStream({
@@ -18,14 +18,34 @@ Deno.test('stream should correctly pipe input through TextDecoderStream and Text
 	assertEquals(line2.value, 'World');
 });
 
-Deno.test('partition should correctly split input based on delimiter', () => {
-	const result = partition('key:value', ':');
+Deno.test('split should parse a `field:value` line', () => {
+	const result = split('key:value');
 	assertEquals(result, ['key', 'value']);
 });
 
-Deno.test('partition should return input and empty string if delimiter not found', () => {
-	const result = partition('keyvalue', ':');
+Deno.test('split should parse a `field: value` line', () => {
+	const result = split('key: value');
+	assertEquals(result, ['key', 'value']);
+});
+
+Deno.test('split should parse a `field: foo:bar` line', () => {
+	const result = split('key: foo:bar');
+	assertEquals(result, ['key', 'foo:bar']);
+});
+
+Deno.test('split should parse a `field: foo: bar` line', () => {
+	const result = split('key: foo: bar');
+	assertEquals(result, ['key', 'foo: bar']);
+});
+
+Deno.test('split should return input and empty string if no field found', () => {
+	const result = split('keyvalue');
 	assertEquals(result, ['keyvalue', '']);
+});
+
+Deno.test('split should return input and empty string if no field found', () => {
+	const result = split(': foobar');
+	assertEquals(result, [': foobar', '']);
 });
 
 Deno.test('fallback should set header if not already set', () => {
