@@ -64,6 +64,7 @@ export async function* events(
 		let [field, value] = utils.partition(line, ':');
 		if (value.startsWith(' ')) value = value.substring(1);
 
+		// TODO: data.join(\n)
 		if (Keys.has(field as K)) {
 			event ||= {};
 			// @ts-ignore; annoying
