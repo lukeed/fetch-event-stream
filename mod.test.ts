@@ -87,7 +87,7 @@ Deno.test('stream should set default headers if not provided', async () => {
 	}
 });
 
-Deno.test('events should yield correct ServerSentEventMessage', async () => {
+Deno.test('events should yield ServerSentEventMessage objects', async () => {
 	const res = new Response(
 		toInput([
 			{ data: 'foobar' },
@@ -233,6 +233,27 @@ Deno.test('event.retry should be number, if present', async () => {
 	assertEquals(result, [{
 		data: 'hello',
 		retry: 123,
+	}]);
+});
+
+Deno.test('event.retry should be undefined when invalid', async () => {
+	const res = new Response(
+		toInput([{
+			data: 'hello',
+			// @ts-expect-error
+			retry: 'foobar',
+		}]),
+	);
+
+	const result = [];
+	for await (const event of events(res)) {
+		result.push(event);
+	}
+
+	assertEquals(result.length, 1);
+	assertEquals(result, [{
+		data: 'hello',
+		retry: undefined,
 	}]);
 });
 
