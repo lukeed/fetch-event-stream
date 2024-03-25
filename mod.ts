@@ -1,6 +1,6 @@
 import * as utils from './utils.ts';
 
-import type { ServerSentEventMessage } from 'std/http/server_sent_event_stream.ts';
+import type { ServerSentEventMessage } from 'https://deno.land/std@0.220.1/http/server_sent_event_stream.ts';
 
 export type { ServerSentEventMessage };
 
