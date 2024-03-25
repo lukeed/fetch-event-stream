@@ -4,9 +4,6 @@ import type { ServerSentEventMessage } from 'std/http/server_sent_event_stream.t
 
 export type { ServerSentEventMessage };
 
-type K = keyof ServerSentEventMessage;
-const Keys = new Set<K>(['data', 'event', 'id', 'retry']);
-
 /**
  * Convert a `Response` body containing Server Sent Events (SSE) into an Async Iterator that yields {@linkcode ServerSentEventMessage} objects.
  *
@@ -64,13 +61,26 @@ export async function* events(
 		let [field, value] = utils.partition(line, ':');
 		if (value.startsWith(' ')) value = value.substring(1);
 
-		if (Keys.has(field as K)) {
-			event ||= {};
-			if (field === 'data') {
-				event.data = event.data ? (event.data + '\n' + value) : value;
-			} else {
-				// @ts-ignore; annoying
-				event[field as K] = value;
+		switch (field) {
+			case 'data': {
+				event ||= {};
+				event[field] = event[field] ? (event[field] + '\n' + value) : value;
+				break;
+			}
+			case 'event': {
+				event ||= {};
+				event[field] = value;
+				break;
+			}
+			case 'retry': {
+				event ||= {};
+				event[field] = +value || undefined;
+				break;
+			}
+			case 'id': {
+				event ||= {};
+				event[field] = +value || value;
+				break;
 			}
 		}
 	}

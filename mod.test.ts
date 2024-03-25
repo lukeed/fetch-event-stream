@@ -161,7 +161,6 @@ Deno.test('junk events should not be yielded', async () => {
 Deno.test('invalid event fields should be ignored', async () => {
 	const res = new Response(
 		toInput([{
-			id: 123,
 			event: 'ok',
 			data: 'hello world',
 			// @ts-expect-error; known invalid
@@ -176,13 +175,12 @@ Deno.test('invalid event fields should be ignored', async () => {
 
 	assertEquals(result.length, 1);
 	assertEquals(result, [{
-		id: '123',
 		event: 'ok',
 		data: 'hello world',
 	}]);
 });
 
-Deno.test('event data should allow special unicode', async () => {
+Deno.test('event.data should allow special unicode', async () => {
 	const res = new Response(
 		toInput([{
 			data: '😅',
@@ -200,7 +198,7 @@ Deno.test('event data should allow special unicode', async () => {
 	}]);
 });
 
-Deno.test('event data should allow new lines', async () => {
+Deno.test('event.data should allow newlines', async () => {
 	const res = new Response(
 		toInput([{
 			data: 'hello\nworld',
@@ -216,4 +214,60 @@ Deno.test('event data should allow new lines', async () => {
 	assertEquals(result, [{
 		data: 'hello\nworld',
 	}]);
+});
+
+Deno.test('event.retry should be number, if present', async () => {
+	const res = new Response(
+		toInput([{
+			data: 'hello',
+			retry: 123,
+		}]),
+	);
+
+	const result = [];
+	for await (const event of events(res)) {
+		result.push(event);
+	}
+
+	assertEquals(result.length, 1);
+	assertEquals(result, [{
+		data: 'hello',
+		retry: 123,
+	}]);
+});
+
+Deno.test('event.id should allow `number` type', async () => {
+	const res = new Response(
+		toInput([
+			{ id: 123 },
+		]),
+	);
+
+	const result = [];
+	for await (const event of events(res)) {
+		result.push(event);
+	}
+
+	assertEquals(result.length, 1);
+	assertEquals(result, [
+		{ id: 123 },
+	]);
+});
+
+Deno.test('event.id should allow `string` type', async () => {
+	const res = new Response(
+		toInput([
+			{ id: 'abc' },
+		]),
+	);
+
+	const result = [];
+	for await (const event of events(res)) {
+		result.push(event);
+	}
+
+	assertEquals(result.length, 1);
+	assertEquals(result, [
+		{ id: 'abc' },
+	]);
 });
