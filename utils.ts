@@ -9,6 +9,7 @@ export function stream(input: ReadableStream<Uint8Array>) {
 export function split(input: string) {
 	let rgx = /[:]\s*/;
 	let match = rgx.exec(input);
+	// ": comment" -> index=0 -> ignore
 	let idx = match && match.index;
 	if (idx) {
 		return [
@@ -16,8 +17,6 @@ export function split(input: string) {
 			input.substring(idx + match![0].length),
 		];
 	}
-
-	return [input, ''];
 }
 
 export function fallback(headers: Headers, key: string, value: string) {

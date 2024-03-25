@@ -56,9 +56,8 @@ export async function* events(
 			continue;
 		}
 
-		if (line.startsWith(':')) continue;
-
-		let [field, value] = utils.split(line);
+		let [field, value] = utils.split(line) || [];
+		if (!field) continue; // comment or invalid
 
 		if (field === 'data') {
 			event ||= {};

@@ -38,14 +38,14 @@ Deno.test('split should parse a `field: foo: bar` line', () => {
 	assertEquals(result, ['key', 'foo: bar']);
 });
 
-Deno.test('split should return input and empty string if no field found', () => {
+Deno.test('split should return void if no field delimiter found', () => {
 	const result = split('keyvalue');
-	assertEquals(result, ['keyvalue', '']);
+	assertEquals(result, undefined);
 });
 
-Deno.test('split should return input and empty string if no field found', () => {
+Deno.test('split should return void if comment', () => {
 	const result = split(': foobar');
-	assertEquals(result, [': foobar', '']);
+	assertEquals(result, undefined);
 });
 
 Deno.test('fallback should set header if not already set', () => {
