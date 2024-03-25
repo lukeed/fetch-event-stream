@@ -3,6 +3,11 @@
 
 > A tiny (742b) utility for Server Sent Event (SSE) streaming via `fetch` and Web Streams API
 
+* Allows any HTTP method
+* Built with native [Web Streams API](https://developer.mozilla.org/en-US/docs/Web/API/Streams_API)
+* Works with browser, Node.js, Cloudflare Workers, Deno, and Bun
+* Supports WebWorker or Service Worker environments
+* Accepts [`AbortController`](https://developer.mozilla.org/en-US/docs/Web/API/AbortController) for cancellable streams
 
 ## Install
 
