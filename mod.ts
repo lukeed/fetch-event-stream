@@ -38,7 +38,7 @@ export type { ServerSentEventMessage };
  */
 export async function* events(
 	res: Response,
-	signal?: AbortSignal,
+	signal?: AbortSignal | null,
 ): AsyncGenerator<ServerSentEventMessage, void, unknown> {
 	// TODO: throw error?
 	if (!res.body) return;
