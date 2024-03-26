@@ -1,11 +1,17 @@
 {
+	"version": "0.1.2",
+	"exports": "./mod.ts",
+	"name": "@lukeed/fetch-event-stream",
 	"tasks": {
 		"build": "deno run -A scripts/build.ts",
 		"publish": "deno run -A scripts/publish.ts",
 		"gzip": "deno run -A scripts/gzip.ts"
 	},
 	"imports": {
-		"std/": "https://deno.land/std@0.220.1/"
+		"@std/assert": "jsr:@std/assert@0.220.1",
+		"@std/http": "jsr:@std/http@0.220.1",
+		"@std/path": "jsr:@std/path@0.220.1",
+		"@std/streams": "jsr:@std/streams@0.220.1"
 	},
 	"lint": {
 		"rules": {
@@ -22,5 +28,7 @@
 		"singleQuote": true,
 		"useTabs": true
 	},
-	"exclude": ["npm"]
+	"exclude": [
+		"npm"
+	]
 }

@@ -1,7 +1,7 @@
-import { assertEquals, assertRejects } from 'std/assert/mod.ts';
+import { assertEquals, assertRejects } from '@std/assert';
 
-import { ServerSentEventStream } from 'std/http/server_sent_event_stream.ts';
-import type { ServerSentEventMessage } from 'std/http/server_sent_event_stream.ts';
+import { ServerSentEventStream } from '@std/http/server_sent_event_stream';
+import type { ServerSentEventMessage } from '@std/http/server_sent_event_stream';
 
 import { events, stream } from './mod.ts';
 

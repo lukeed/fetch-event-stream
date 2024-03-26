@@ -1,6 +1,6 @@
 // deno-lint-ignore-file no-deprecated-deno-api
 
-import { assert } from 'std/assert/assert.ts';
+import { assert } from '@std/assert';
 
 let bundle = await Deno.run({
 	cmd: [Deno.execPath(), 'bundle', 'mod.ts'],

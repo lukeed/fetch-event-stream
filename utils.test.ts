@@ -1,4 +1,4 @@
-import { assertEquals } from 'std/assert/mod.ts';
+import { assertEquals } from '@std/assert';
 import { fallback, split, stream } from './utils.ts';
 
 Deno.test('stream should correctly pipe input through TextDecoderStream and TextLineStream', async () => {

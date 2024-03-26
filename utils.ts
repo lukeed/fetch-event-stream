@@ -1,4 +1,4 @@
-import { TextLineStream } from 'https://deno.land/std@0.220.1/streams/text_line_stream.ts';
+import { TextLineStream } from '@std/streams/text_line_stream';
 
 export function stream(input: ReadableStream<Uint8Array>) {
 	let decoder = new TextDecoderStream();
