@@ -28,6 +28,7 @@
   "remote": {},
   "workspace": {
     "dependencies": [
+      "jsr:@deno/dnt@^0.41.0",
       "jsr:@std/assert@0.220.1",
       "jsr:@std/http@0.220.1",
       "jsr:@std/path@0.220.1",
