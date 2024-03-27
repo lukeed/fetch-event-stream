@@ -9,6 +9,12 @@
 * Supports WebWorker or Service Worker environments
 * Accepts [`AbortController`](https://developer.mozilla.org/en-US/docs/Web/API/AbortController) for cancellable streams
 
+***Why?***
+
+1. Even though [`EventSource`](https://developer.mozilla.org/en-US/docs/Web/API/EventSource) exists in browsers (and Deno!), it only sends `GET` requests and does not allow for custom HTTP headers. Most APIs (eg, Anthropic, OpenAI) require `POST` requests with an `Authorization` header and a JSON payload.
+
+2. Web Streams are new, not very well understood, and are sometimes confused with NodeJS Streams. Because of this, many other libraries embed large polyfills or manually reconstruct desired behaviors through non-standard approaches. These polyfills are generally [not necessary](https://developer.mozilla.org/en-US/docs/Web/API/Streams_API#browser_compatibility) anymore, but still make large impacts on SDK size; for example, [`openai`](https://bundlejs.com/?q=openai%404.29.2) is `17kB` (gzip).
+
 ## Install
 
 ```
