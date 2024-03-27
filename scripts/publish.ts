@@ -35,7 +35,7 @@ await run('publish npm package', {
 });
 
 await run('publish jsr package', {
-	cmd: ['deno', 'publish'],
+	cmd: ['deno', 'publish', '--allow-dirty'],
 });
 
 await run('git add', {
