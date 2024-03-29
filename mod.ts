@@ -44,19 +44,24 @@ export async function* events(
 	if (!res.body) return;
 
 	let iter = utils.stream(res.body);
+	let line, reader = iter.getReader();
 	let event: ServerSentEventMessage | undefined;
-	let line: string;
 
-	for await (line of iter) {
-		if (signal && signal.aborted) break;
+	for (;;) {
+		if (signal && signal.aborted) {
+			return reader.cancel();
+		}
 
-		if (!line) {
+		line = await reader.read();
+		if (line.done) break;
+
+		if (!line.value) {
 			if (event) yield event;
 			event = undefined;
 			continue;
 		}
 
-		let [field, value] = utils.split(line) || [];
+		let [field, value] = utils.split(line.value) || [];
 		if (!field) continue; // comment or invalid
 
 		if (field === 'data') {
