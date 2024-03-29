@@ -17,6 +17,8 @@
 
 ## Install
 
+> Available on [JSR](https://jsr.io/@lukeed/fetch-event-stream), [npm](https://www.npmjs.com/package/fetch-event-stream), and [deno.land](https://deno.land/x/fetch_event_stream)
+
 ```
 $ npm install --save fetch-event-stream
 ```
