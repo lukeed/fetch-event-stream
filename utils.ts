@@ -1,4 +1,4 @@
-import { TextLineStream } from '@std/streams/text_line_stream';
+import { TextLineStream } from '@std/streams/text-line-stream';
 
 export function stream(input: ReadableStream<Uint8Array>) {
 	let decoder = new TextDecoderStream();

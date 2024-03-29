@@ -9,10 +9,10 @@
 	},
 	"imports": {
 		"@deno/dnt": "jsr:@deno/dnt@^0.41.0",
-		"@std/assert": "jsr:@std/assert@0.220.1",
-		"@std/http": "jsr:@std/http@0.220.1",
-		"@std/path": "jsr:@std/path@0.220.1",
-		"@std/streams": "jsr:@std/streams@0.220.1"
+		"@std/assert": "jsr:@std/assert@^0.221.0",
+		"@std/http": "jsr:@std/http@^0.221.0",
+		"@std/path": "jsr:@std/path@^0.221.0",
+		"@std/streams": "jsr:@std/streams@^0.221.0"
 	},
 	"lint": {
 		"rules": {

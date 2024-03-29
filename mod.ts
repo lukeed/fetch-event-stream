@@ -1,6 +1,6 @@
 import * as utils from './utils.ts';
 
-import type { ServerSentEventMessage } from '@std/http/server_sent_event_stream';
+import type { ServerSentEventMessage } from '@std/http/server-sent-event-stream';
 
 export type { ServerSentEventMessage };
 
