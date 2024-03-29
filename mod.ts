@@ -53,7 +53,7 @@ export async function* events(
 		}
 
 		line = await reader.read();
-		if (line.done) break;
+		if (line.done) return;
 
 		if (!line.value) {
 			if (event) yield event;
