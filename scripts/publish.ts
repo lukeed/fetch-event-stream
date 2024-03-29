@@ -51,5 +51,5 @@ await run('git tag', {
 });
 
 await run('git push', {
-	cmd: ['git', 'push', '--tags'],
+	cmd: ['git', 'push', 'origin', 'main', '--tags'],
 });
