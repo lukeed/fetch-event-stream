@@ -1,7 +1,7 @@
 <!-- deno-fmt-ignore-file -->
 # fetch-event-stream [![CI](https://github.com/lukeed/fetch-event-stream/workflows/CI/badge.svg)](https://github.com/lukeed/fetch-event-stream/actions?query=workflow%3ACI) [![licenses](https://licenses.dev/b/npm/fetch-event-stream)](https://licenses.dev/npm/fetch-event-stream)
 
-> A tiny (774b) utility for Server Sent Event (SSE) streaming via `fetch` and Web Streams API
+> A tiny (736b) utility for Server Sent Event (SSE) streaming via `fetch` and Web Streams API
 
 * Allows any HTTP method
 * Built with native [Web Streams API](https://developer.mozilla.org/en-US/docs/Web/API/Streams_API)
