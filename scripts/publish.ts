@@ -6,7 +6,7 @@ import * as semver from 'https://deno.land/x/semver@v1.4.1/mod.ts';
 
 type Options = Parameters<typeof Deno.run>[0];
 async function run(label: string, options: Options) {
-	let p = await Deno.run(options).status();
+	const p = await Deno.run(options).status();
 	assert(p.code === 0, label);
 }
 

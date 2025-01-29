@@ -42,7 +42,7 @@ await build({
 	},
 
 	filterDiagnostic(diag) {
-		let txt = diag.messageText.toString();
+		const txt = diag.messageText.toString();
 		return !txt.includes(
 			// ignore type error for missing Deno built-in information
 			`Type 'ReadableStream<string>' must have a '[Symbol.asyncIterator]()' method that returns an async iterator`,

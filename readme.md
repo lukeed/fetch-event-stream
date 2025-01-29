@@ -44,10 +44,10 @@ _**Example**_
 
 ```js
 // Optional
-let abort = new AbortController();
+const abort = new AbortController();
 
 // Manually fetch a Response
-let res = await fetch('https://...', {
+const res = await fetch('https://...', {
   method: 'POST',
   signal: abort.signal,
   headers: {
@@ -61,7 +61,7 @@ let res = await fetch('https://...', {
 });
 
 if (res.ok) {
-  let stream = events(res, abort.signal);
+  const stream = events(res, abort.signal);
   for await (let event of stream) {
     console.log('<<', event.data);
   }
@@ -91,7 +91,7 @@ _**Example**_
 
 ```js
 // NOTE: throws `Response` if not 2xx status
-let events = await stream('https://api.openai.com/...', {
+const events = await stream('https://api.openai.com/...', {
   method: 'POST',
   headers: {
     'Authorization': 'Bearer <token>',
@@ -103,7 +103,7 @@ let events = await stream('https://api.openai.com/...', {
   }),
 });
 
-for await (let event of events) {
+for await (const event of events) {
   console.log('<<', JSON.parse(event.data));
 }
 ```

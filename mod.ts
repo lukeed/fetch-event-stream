@@ -12,10 +12,10 @@ export type { ServerSentEventMessage };
  * @example
  * ```js
  * // Optional
- * let abort = new AbortController;
+ * const abort = new AbortController;
  *
  * // Manually fetch a Response
- * let res = await fetch('https://...', {
+ * const res = await fetch('https://...', {
  *   method: 'POST',
  *   signal: abort.signal,
  *   headers: {
@@ -29,8 +29,8 @@ export type { ServerSentEventMessage };
  * });
  *
  * if (res.ok) {
- *   let stream = events(res, abort.signal);
- *   for await (let event of stream) {
+ *   const stream = events(res, abort.signal);
+ *   for await (const event of stream) {
  *     console.log('<<', event.data);
  *   }
  * }
@@ -43,8 +43,8 @@ export async function* events(
 	// TODO: throw error?
 	if (!res.body) return;
 
-	let iter = utils.stream(res.body);
-	let line, reader = iter.getReader();
+	const iter = utils.stream(res.body);
+	const reader = iter.getReader();
 	let event: ServerSentEventMessage | undefined;
 
 	for (;;) {
@@ -52,7 +52,7 @@ export async function* events(
 			return reader.cancel();
 		}
 
-		line = await reader.read();
+		const line = await reader.read();
 		if (line.done) return;
 
 		if (!line.value) {
@@ -61,7 +61,7 @@ export async function* events(
 			continue;
 		}
 
-		let [field, value] = utils.split(line.value) || [];
+		const [field, value] = utils.split(line.value) || [];
 		if (!field) continue; // comment or invalid
 
 		if (field === 'data') {
@@ -88,7 +88,7 @@ export async function* events(
  * @example
  * ```js
  * // NOTE: throws `Response` if not 2xx status
- * let events = await stream('https://api.openai.com/...', {
+ * const events = await stream('https://api.openai.com/...', {
  *   method: 'POST',
  *   headers: {
  *     'Authorization': 'Bearer <token>',
@@ -100,7 +100,7 @@ export async function* events(
  *   })
  * });
  *
- * for await (let event of events) {
+ * for await (const event of events) {
  *   console.log('<<', JSON.parse(event.data));
  * }
  * ```
@@ -111,12 +111,12 @@ export async function stream(
 ): Promise<
 	AsyncGenerator<ServerSentEventMessage, void, unknown>
 > {
-	let req = new Request(input, init);
+	const req = new Request(input, init);
 	utils.fallback(req.headers, 'Accept', 'text/event-stream');
 	utils.fallback(req.headers, 'Content-Type', 'application/json');
 
-	let r = await fetch(req);
-	if (!r.ok) throw r;
+	const res = await fetch(req);
+	if (!res.ok) throw res;
 
-	return events(r, req.signal);
+	return events(res, req.signal);
 }

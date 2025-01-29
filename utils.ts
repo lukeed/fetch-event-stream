@@ -1,16 +1,16 @@
 import { TextLineStream } from '@std/streams/text-line-stream';
 
 export function stream(input: ReadableStream<Uint8Array>) {
-	let decoder = new TextDecoderStream();
-	let split = new TextLineStream({ allowCR: true });
+	const decoder = new TextDecoderStream();
+	const split = new TextLineStream({ allowCR: true });
 	return input.pipeThrough(decoder).pipeThrough(split);
 }
 
 export function split(input: string) {
-	let rgx = /[:]\s*/;
-	let match = rgx.exec(input);
+	const rgx = /[:]\s*/;
+	const match = rgx.exec(input);
 	// ": comment" -> index=0 -> ignore
-	let idx = match && match.index;
+	const idx = match && match.index;
 	if (idx) {
 		return [
 			input.substring(0, idx),
@@ -20,6 +20,6 @@ export function split(input: string) {
 }
 
 export function fallback(headers: Headers, key: string, value: string) {
-	let tmp = headers.get(key);
+	const tmp = headers.get(key);
 	if (!tmp) headers.set(key, value);
 }

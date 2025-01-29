@@ -11,9 +11,9 @@ function sleep(ms: number) {
 }
 
 function toInput(items: ServerSentEventMessage[], delay?: number) {
-	let src = new ReadableStream<ServerSentEventMessage>({
+	const src = new ReadableStream<ServerSentEventMessage>({
 		async start(ctrl) {
-			for (let x of items) {
+			for (const x of items) {
 				ctrl.enqueue(x);
 				if (delay) await sleep(delay);
 			}
@@ -30,8 +30,8 @@ function toInput(items: ServerSentEventMessage[], delay?: number) {
 }
 
 async function collect<T>(input: AsyncGenerator<T, unknown, unknown>): Promise<T[]> {
-	let output: T[] = [];
-	for await (let item of input) {
+	const output: T[] = [];
+	for await (const item of input) {
 		output.push(item);
 	}
 	return output;

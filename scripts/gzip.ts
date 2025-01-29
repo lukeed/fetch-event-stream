@@ -5,7 +5,7 @@ function toAbsolute(id: string) {
 	return new URL(import.meta.resolve(id)).pathname;
 }
 
-let result = await build({
+const result = await build({
 	bundle: true,
 	format: 'esm',
 	entryPoints: [
@@ -20,14 +20,14 @@ let result = await build({
 	}),
 });
 
-let output = result.outputFiles[0].contents;
+const output = result.outputFiles[0].contents;
 
-let bytes = {
+const bytes = {
 	min: output.length,
 	gzip: 0,
 };
 
-let stream = new ReadableStream({
+const stream = new ReadableStream({
 	start(ctrl) {
 		ctrl.enqueue(output);
 		ctrl.close();
@@ -36,10 +36,10 @@ let stream = new ReadableStream({
 	new CompressionStream('gzip'),
 );
 
-let reader = stream.getReader();
+const reader = stream.getReader();
 
 while (true) {
-	let tmp = await reader.read();
+	const tmp = await reader.read();
 	if (tmp.done) break;
 	bytes.gzip += tmp.value.length;
 }
