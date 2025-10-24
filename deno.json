@@ -17,10 +17,11 @@
 	"lint": {
 		"rules": {
 			"exclude": [
-				"no-var",
 				"prefer-const",
 				"no-cond-assign",
-				"no-inner-declarations"
+				"no-import-prefix",
+				"no-inner-declarations",
+				"no-var"
 			]
 		}
 	},
