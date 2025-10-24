@@ -1,23 +1,27 @@
-// deno-lint-ignore-file no-deprecated-deno-api
 import { resolve } from '@std/path';
 import { assert } from '@std/assert';
 
-import * as semver from 'https://deno.land/x/semver@v1.4.1/mod.ts';
+import * as semver from 'jsr:@std/semver@1.0.6';
 
-type Options = Parameters<typeof Deno.run>[0];
+type Options = Deno.CommandOptions & {
+	args: string[];
+};
+
 async function run(label: string, options: Options) {
-	let p = await Deno.run(options).status();
+	let bin = options.args.shift()!;
+	let pid = new Deno.Command(bin, options);
+	let p = await pid.spawn().status;
 	assert(p.code === 0, label);
 }
 
-const version = semver.valid(Deno.args[0]);
-assert(version, 'Invalid version!');
+const v = semver.parse(Deno.args[0]);
+const version = semver.format(v);
 
 const file = resolve('./deno.json');
 const Config = JSON.parse(await Deno.readTextFile(file));
 
 await run('build npm package', {
-	cmd: ['deno', 'task', 'build', version],
+	args: ['deno', 'task', 'build', version],
 });
 
 Config.version = version;
@@ -26,30 +30,30 @@ await Deno.writeTextFile(file, contents);
 
 // prevent CI error
 await run('deno fmt', {
-	cmd: ['deno', 'fmt', file],
+	args: ['deno', 'fmt', file],
 });
 
 await run('publish npm package', {
-	cmd: ['npm', 'publish'],
+	args: ['npm', 'publish'],
 	cwd: resolve('npm'),
 });
 
 await run('publish jsr package', {
-	cmd: ['deno', 'publish', '--allow-dirty'],
+	args: ['deno', 'publish', '--allow-dirty'],
 });
 
 await run('git add', {
-	cmd: ['git', 'add', file],
+	args: ['git', 'add', file],
 });
 
 await run('git commit', {
-	cmd: ['git', 'commit', '-m', version],
+	args: ['git', 'commit', '-m', version],
 });
 
 await run('git tag', {
-	cmd: ['git', 'tag', version],
+	args: ['git', 'tag', version],
 });
 
 await run('git push', {
-	cmd: ['git', 'push', 'origin', 'main', '--tags'],
+	args: ['git', 'push', 'origin', 'main', '--tags'],
 });
