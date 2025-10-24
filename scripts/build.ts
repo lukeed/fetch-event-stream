@@ -1,4 +1,7 @@
 import { build, emptyDir } from '@deno/dnt';
+import config from '../deno.json' with {
+	type: 'json',
+};
 
 await emptyDir('./npm');
 
@@ -18,7 +21,7 @@ await build({
 
 	package: {
 		name: 'fetch-event-stream',
-		version: Deno.args[0],
+		version: config.version,
 		repository: 'lukeed/fetch-event-stream',
 		license: 'MIT',
 		description:
