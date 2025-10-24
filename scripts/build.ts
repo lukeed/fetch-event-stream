@@ -22,7 +22,7 @@ await build({
 		repository: 'lukeed/fetch-event-stream',
 		license: 'MIT',
 		description:
-			'A tiny (736b) utility for Server Sent Event (SSE) streaming via `fetch` and Web Streams API',
+			'A tiny (741b) utility for Server Sent Event (SSE) streaming via `fetch` and Web Streams API',
 		author: {
 			name: 'Luke Edwards',
 			email: 'luke@lukeed.com',

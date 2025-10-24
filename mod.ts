@@ -61,8 +61,7 @@ export async function* events(
 			continue;
 		}
 
-		let [field, value] = utils.split(line.value) || [];
-		if (!field) continue; // comment or invalid
+		let [field, value] = (utils.split(line.value) || []) as [keyof ServerSentEventMessage, string];
 
 		if (field === 'data') {
 			event ||= {};
@@ -72,7 +71,7 @@ export async function* events(
 			event[field] = value;
 		} else if (field === 'id') {
 			event ||= {};
-			event[field] = +value || value;
+			event[field] = String(+value) === value ? +value : value;
 		} else if (field === 'retry') {
 			event ||= {};
 			event[field] = +value || undefined;

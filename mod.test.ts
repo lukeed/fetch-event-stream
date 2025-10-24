@@ -260,6 +260,22 @@ Deno.test('event.id should allow `number` type', async () => {
 	]);
 });
 
+Deno.test('event.id should preserve number-like strings', async () => {
+	const res = new Response(
+		toInput([
+			{ id: '003' },
+		]),
+	);
+
+	const iter = events(res);
+	const result = await collect(iter);
+
+	assertEquals(result.length, 1);
+	assertEquals(result, [
+		{ id: '003' },
+	]);
+});
+
 Deno.test('event.id should allow `string` type', async () => {
 	const res = new Response(
 		toInput([
