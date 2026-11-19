@@ -38,9 +38,9 @@ Deno.test('split should parse a `field: foo: bar` line', () => {
 	assertEquals(result, ['key', 'foo: bar']);
 });
 
-Deno.test('split should return void if no field delimiter found', () => {
+Deno.test('split should use an empty value if no field delimiter is found', () => {
 	const result = split('keyvalue');
-	assertEquals(result, undefined);
+	assertEquals(result, ['keyvalue', '']);
 });
 
 Deno.test('split should return void if comment', () => {

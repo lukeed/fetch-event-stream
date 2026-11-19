@@ -65,7 +65,7 @@ export async function* events(
 
 		if (field === 'data') {
 			event ||= {};
-			event[field] = event[field] ? (event[field] + '\n' + value) : value;
+			event[field] = event[field] === undefined ? value : (event[field] + '\n' + value);
 		} else if (field === 'event') {
 			event ||= {};
 			event[field] = value;

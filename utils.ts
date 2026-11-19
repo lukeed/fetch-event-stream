@@ -17,6 +17,10 @@ export function split(input: string) {
 			input.substring(idx + match![0].length),
 		];
 	}
+
+	if (!match && input) {
+		return [input, ''];
+	}
 }
 
 export function fallback(headers: Headers, key: string, value: string) {
