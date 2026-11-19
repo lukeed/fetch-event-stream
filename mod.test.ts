@@ -291,3 +291,17 @@ Deno.test('event.id should allow `string` type', async () => {
 		{ id: 'abc' },
 	]);
 });
+
+Deno.test('events should treat fields without colons as empty values', async () => {
+	const res = new Response('data\n\ndata\ndata\n\ndata:\n');
+	const result = await collect(events(res));
+
+	assertEquals(result, [{ data: '' }, { data: '\n' }]);
+});
+
+Deno.test('event.data should preserve newlines after empty values', async () => {
+	const res = new Response('data\ndata:hello\n\n');
+	const result = await collect(events(res));
+
+	assertEquals(result, [{ data: '\nhello' }]);
+});
